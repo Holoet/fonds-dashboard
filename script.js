@@ -1,12 +1,13 @@
+
 const fonds = [
-    { name: "MSCI WLD", isin: "IE00B4L5Y983", ticker: "IWDA.AS", shares: 1.0 },
-    { name: "VANECKETFSDFNS ADLA", isin: "IE000YYE6WK5", ticker: "ADLA.AS", shares: 1.0 },
-    { name: "ISHS IV-AUTO.+ROBOTIC.ETF", isin: "IE00BYZK4552", ticker: "2B76.DE", shares: 1.0 }
+    { name: "MSCI WLD", isin: "IE00B4L5Y983", ticker: "IWDA.AS" },
+    { name: "VANECKETFSDFNS ADLA", isin: "IE000YYE6WK5", ticker: "ADLA.AS" },
+    { name: "ISHS IV-AUTO.+ROBOTIC.ETF", isin: "IE00BYZK4552", ticker: "2B76.DE" }
 ];
 
 function getStoredShares(isin) {
     const stored = localStorage.getItem(isin);
-    return stored ? parseFloat(stored) : null;
+    return stored ? parseFloat(stored) : "";
 }
 
 function saveShares(isin, value) {
@@ -14,7 +15,8 @@ function saveShares(isin, value) {
 }
 
 function fetchData(ticker) {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=1mo&interval=1d`;
+    const proxy = "https://cors-anywhere.herokuapp.com/";
+    const url = proxy + `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=1mo&interval=1d`;
     return fetch(url).then(res => res.json());
 }
 
@@ -38,7 +40,7 @@ function renderFonds() {
         div.className = "fonds";
         div.innerHTML = `<h2>${fond.name}</h2>
             <p>ISIN: ${fond.isin}</p>
-            <label>Stückzahl: <input type="number" id="shares-${fond.isin}" value="${getStoredShares(fond.isin) || fond.shares}" step="0.0001"></label>
+            <label>Stückzahl: <input type="number" id="shares-${fond.isin}" value="${getStoredShares(fond.isin)}" step="0.0001"></label>
             <div id="data-${fond.isin}">Lade Kursdaten...</div>`;
         container.appendChild(div);
 
@@ -74,6 +76,9 @@ function updateData(fond) {
             <p>Wert deiner Position: ${(today * shares).toFixed(2)} €</p>
         `;
         document.getElementById(`data-${fond.isin}`).innerHTML = html;
+    }).catch(err => {
+        document.getElementById(`data-${fond.isin}`).innerHTML = "Fehler beim Laden der Kursdaten.";
+        console.error("Fehler beim Abrufen der Daten für", fond.ticker, err);
     });
 }
 

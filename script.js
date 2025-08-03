@@ -1,7 +1,7 @@
 const fonds = [
-    { name: "MSCI WLD", isin: "IE00B4L5Y983", ticker: "IWDA.AS", shares: 431.1152 },
-    { name: "VANECKETFSDFNS ADLA", isin: "IE000YYE6WK5", ticker: "ADLA.AS", shares: 5.0485 },
-    { name: "ISHS IV-AUTO.+ROBOTIC.ETF", isin: "IE00BYZK4552", ticker: "2B76.DE", shares: 18.997 }
+    { name: "MSCI WLD", isin: "IE00B4L5Y983", ticker: "IWDA.AS", shares: 1.0 },
+    { name: "VANECKETFSDFNS ADLA", isin: "IE000YYE6WK5", ticker: "ADLA.AS", shares: 1.0 },
+    { name: "ISHS IV-AUTO.+ROBOTIC.ETF", isin: "IE00BYZK4552", ticker: "2B76.DE", shares: 1.0 }
 ];
 
 function getStoredShares(isin) {
